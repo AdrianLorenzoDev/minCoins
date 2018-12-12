@@ -1,12 +1,6 @@
 import org.apache.commons.cli.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class Main {
 
@@ -40,31 +34,6 @@ public class Main {
     }
 
 
-    /**
-     * Read a set of coins (number) from a file
-     *
-     * @param file
-     * @return the set of coins
-     * @throws IOException
-     */
-    public static Set<Integer> getCoins(String file) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-        List<String> coinsStr = new ArrayList<>();
-        String coinStr;
-
-        while ((coinStr = bufferedReader.readLine()) != null) {
-            coinsStr.add(coinStr);
-        }
-
-        Set<Integer> coins = new HashSet<>();
-        for (String coin : coinsStr) {
-            coins.add(Integer.parseInt(coin));
-        }
-
-        return coins;
-    }
-
-
     public static void main(String[] args) throws IOException, ParseException {
         CommandLine arguments = parseArguments(args);
         String[] nonOptionArguments = arguments.getArgs();
@@ -88,7 +57,7 @@ public class Main {
             System.exit(-2);
         }
 
-        minCoinCalculator test = new minCoinCalculator(getCoins(nonOptionArguments[1]), maxArraySize);
+        minCoinCalculator test = new minCoinCalculator(CoinReader.getCoins(nonOptionArguments[1]), maxArraySize);
 
         long startTimeStamp, time;
         int result;
@@ -104,7 +73,7 @@ public class Main {
 
                 // Tabulation
                 startTimeStamp = System.currentTimeMillis();
-                result = test.minCoinsMemoization(value);
+                result = test.minCoinsTabulation(value);
                 time = System.currentTimeMillis() - startTimeStamp;
                 System.out.println("TABULATION:     Min number of coins needed: " + result + " - TIME: " + time + " ms");
             } else {

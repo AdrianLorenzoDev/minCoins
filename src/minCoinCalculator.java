@@ -74,7 +74,7 @@ public class minCoinCalculator {
      */
     public int minCoinsTab(int value) {
 
-        int table[] = new int[value + 1];
+        int[] table = new int[value + 1];
 
         // Base case (If given value is 0)
         table[0] = 0;

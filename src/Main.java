@@ -17,8 +17,6 @@ public class Main {
         options.addOption(new Option("time", false, "Time measurement"));
         options.addOption(new Option("tabulation", false,
                 "Print tabulation implementation result"));
-        options.addOption(new Option("max", true,
-                "Sets max value for array size due to heap JVM size. Default: 100000"));
         options.addOption(new Option("help", false, "Prints help about program"));
 
         CommandLineParser commandLineParser = new DefaultParser();
@@ -45,19 +43,7 @@ public class Main {
 
         int value = Integer.parseInt(nonOptionArguments[0]);
 
-        int maxArraySize;
-        if (arguments.hasOption("max")) {
-            maxArraySize = Integer.parseInt(arguments.getOptionValue("max"));
-        } else {
-            maxArraySize = 100000;
-        }
-
-        if (maxArraySize <= value) {
-            System.out.println("ERROR: Value must be higher than the arraySize: " + maxArraySize);
-            System.exit(-2);
-        }
-
-        minCoinCalculator test = new minCoinCalculator(CoinReader.getCoins(nonOptionArguments[1]), maxArraySize);
+        MinCoinCalculator test = new MinCoinCalculator(CoinReader.getCoins(nonOptionArguments[1]));
 
         long startTimeStamp, time;
         int result;

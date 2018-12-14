@@ -12,8 +12,6 @@ minCoins -Calculates the minimum amount of coins needed to reach a value with an
 
 usage: minCoins [VALUE] [FILE]...
  -help         Prints help about program
- -max <arg>    Sets max value for array size due to heap JVM size.
-               Default: 100000
  -tabulation   Print tabulation implementation result
  -time         Time measurement
 

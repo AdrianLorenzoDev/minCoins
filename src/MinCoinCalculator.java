@@ -1,21 +1,19 @@
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
-public class minCoinCalculator {
+public class MinCoinCalculator {
 
-    private int[] minValuesCache; // Memoization cache
+    private Map<Integer, Integer> minValuesCache; // Memoization cache
     private Set<Integer> coins; // Set of coins
-
 
     /**
      * @param coins Set of coins
      */
-    public minCoinCalculator(Set<Integer> coins, int maxArraySize) {
+    public MinCoinCalculator(Set<Integer> coins) {
         this.coins = coins;
-        minValuesCache = new int[maxArraySize];
-        minValuesCache[0] = 0;
-        for (int i = 0; i < minValuesCache.length; i++) {
-            minValuesCache[i] = Integer.MAX_VALUE;
-        }
+        minValuesCache = new HashMap<>();
+        minValuesCache.put(0, 0);
     }
 
 
@@ -27,27 +25,25 @@ public class minCoinCalculator {
      * @return The minimum number of coins
      */
     private int minCoinsMem(int value) {
-        // Base case (value is 0)
-        if (value == 0) {
-            return 0;
-        }
 
         // Value is in cache
-        if (minValuesCache[value] != Integer.MAX_VALUE) {
-            return minValuesCache[value];
+        if (minValuesCache.getOrDefault(value, Integer.MAX_VALUE) != Integer.MAX_VALUE) {
+            return minValuesCache.get(value);
         }
+
+        minValuesCache.put(value, Integer.MAX_VALUE);
 
         // Go through all coins smaller than value
         for (Integer coin : coins) {
             if (coin <= value) {
                 int subResult = minCoinsMem(value - coin);
-                if (subResult != Integer.MAX_VALUE && subResult + 1 < minValuesCache[value]) {
-                    minValuesCache[value] = subResult + 1;
+                if (subResult != Integer.MAX_VALUE && subResult + 1 < minValuesCache.get(value)) {
+                    minValuesCache.put(value, subResult + 1);
                 }
             }
         }
 
-        return this.minValuesCache[value];
+        return minValuesCache.get(value);
     }
 
     /**
